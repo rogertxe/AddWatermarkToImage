@@ -4,7 +4,23 @@ from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 
 class WatermarkApp:
+    """
+    A class representing the Watermark Application GUI.
+
+    Attributes:
+        master (tk.Tk): The root Tkinter window.
+        upload_button (tk.Button): Button to upload an image.
+        canvas (tk.Canvas): Canvas to display the image.
+        add_watermark_button (tk.Button): Button to add a watermark to the image.
+        image_path (str): Path of the uploaded image.
+    """
     def __init__(self, master):
+        """
+        Initialize the WatermarkApp.
+
+        Args:
+            master (tk.Tk): The root Tkinter window.
+        """
         self.master = master
         self.master.title("Watermark App")
 
@@ -18,12 +34,21 @@ class WatermarkApp:
         self.add_watermark_button.pack()
 
     def upload_image(self):
+        """
+        Open a file dialog to upload an image.
+        """
         file_path = filedialog.askopenfilename()
         if file_path:
             self.image_path = file_path
             self.display_image(file_path)
 
     def display_image(self, file_path):
+        """
+        Display the uploaded image on the canvas.
+
+        Args:
+            file_path (str): Path of the uploaded image.
+        """
         image = Image.open(file_path)
         # Resize image to fit canvas if needed
         if image.width > 400 or image.height > 400:
@@ -32,6 +57,9 @@ class WatermarkApp:
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.photo)
 
     def add_watermark(self):
+        """
+        Add a watermark to the uploaded image and save the watermarked image.
+        """
         if not hasattr(self, 'image_path'):
             messagebox.showerror("Error", "Please upload an image first.")
             return
@@ -55,6 +83,9 @@ class WatermarkApp:
         messagebox.showinfo("Success", f"Watermarked image saved as {watermarked_filename}")
 
 def main():
+    """
+    Entry point of the application.
+    """
     root = tk.Tk()
     app = WatermarkApp(root)
     root.mainloop()
